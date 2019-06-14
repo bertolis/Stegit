@@ -8,17 +8,6 @@ import itertools
 import base64
 
 
-def encryption():
-    word = input("Give message to encrypt: ")
-
-    key = Fernet.generate_key()
-    cipher_suite = Fernet(key)
-    cipher_text = cipher_suite.encrypt(bytes(word, encoding='utf-8'))
-
-    print("Key: " + str(key) + "\n")
-    print(cipher_text)
-
-
 def decryption():
     word = input("Give message to encrypt: \n")
     key = input("\nGive key to encrypt with: \n")
@@ -29,43 +18,13 @@ def decryption():
     print("\n"+str(plain_text.decode("utf-8")))
 
 
-def brute_force(messages):
+def brute_force(messages, method):
     message_perm = ""
     text = ""
 
-    """
-    for subset in itertools.permutations(messages):
-        for i in subset:
-            text+=i
-        text+='\n'
-
-    basetext=text.split('\n')
-
-    for i in basetext:
-        try:
-            #print((base64.b64decode(i)).decode("utf-8"))
-            message_comb += (base64.b64decode(i)).decode("utf-8")
-            message_comb += "\n"
-        except:
-            pass
-            #print("Non printable")
-   
-    message_comb = message_comb.split('\n') 
-    for m in message_comb[:20]:
-        print(m)
-    """
-
-    for mess in messages:
-        i = 0
-        if "TheKeyForTheDecryptionIs" in mess:
-            text = mess[24:]
-            cipher_suite = Fernet(mess[24:])
-            messages.remove(mess)
-            break
-        i += 1
-
-    #print(text)
-    #print(messages)
+    # Decryption key
+    if method == "fernet":
+        cipher_suite = Fernet( input("\nGive key to decrypt with: "))
 
     # Searching all the possible combinations
     for permutation in itertools.permutations(messages):
@@ -73,22 +32,18 @@ def brute_force(messages):
         for perm in permutation:
             message_perm += perm
         try:
-            plain_text = cipher_suite.decrypt(bytes(message_perm, encoding='utf-8'))
-            print("\nThe hidden message is:\n\n"+str(plain_text.decode("utf-8")))
-            break
+            if method == "base64":
+                plain_text = (base64.b64decode(message_perm)).decode("utf-8")
+                print("\nThe hidden message is:\n"+plain_text)
+                message_perm = ""
+                #break
+            if method == "fernet":
+                plain_text = cipher_suite.decrypt(bytes(message_perm, encoding='utf-8'))
+                print("\nThe hidden message is:\n"+str(plain_text.decode("utf-8")))
+                break
         except:
             message_perm = ""
             pass
-
-
-        #message_perm += "\n"
-    #message_perm = message_perm.split("\n")
-    
-    #for mp in message_perm:
-        #print(mp)
-        #cipher_suite = Fernet(key)
-        #plain_text = cipher_suite.decrypt(bytes(perm, encoding='utf-8'))
-        #print("\n"+str(plain_text.decode("utf-8")))
 
 
 def extract():
@@ -112,7 +67,7 @@ def extract():
         pattern = re.compile("[-A-Za-z0-9+=_]{14,}")
         message = ""
 
-        # Print all the pixels of the image
+        # Iterate through all the pixels of the image
         for x in range(img.size[0]):
             for y in range(img.size[1]):
                 r, g, b = pix[x, y]
@@ -145,7 +100,24 @@ def extract():
             messages.append(m)
             print(m)
 
-    brute_force(messages)
+    print("\nSelect method: ")
+    while True:
+        print("1. Base64")
+        print("2. Fernet")
+
+        choice = input("")
+        print("")
+
+        if choice == "1":
+            method = "base64"
+            break
+        elif choice == "2":
+            method = "fernet"
+            break
+        else:
+            print("Please make a choice: ")
+
+    brute_force(messages, method)
 
 
 def hide():
@@ -165,7 +137,7 @@ def hide():
     bit2 = 1
     bit3 = 2
 
-    # Iteration through the pixels by row
+    # Iterate through the pixels
     for x in range(400, 401):
         for y in range(math.ceil(len(bin_word) / 3)):
             try:
