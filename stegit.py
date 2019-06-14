@@ -208,7 +208,7 @@ def hide():
 
 def analyze():
     # Input message and converse it to binary
-    img = Image.open("./crack_images/" + input("Give image name: "), 'r')
+    img = Image.open("./original_images/" + input("Give image name: "), 'r')
     pix = img.load()
 
     message = ""
