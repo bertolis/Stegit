@@ -241,8 +241,8 @@ def analyze():
             message += str(r) + str(g) + str(b)
 
     # Write the binary into a file
-    with open("results.txt", 'w') as fp:
-        fp.write(message + '\n')
+    #with open("results.txt", 'w') as fp:
+        #fp.write(message + '\n')
 
 
 def main():
