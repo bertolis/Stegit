@@ -8,9 +8,22 @@ import itertools
 import base64
 
 
+
+def encryption():
+    word = input("Give message to encrypt: ")
+    #key = input("\nGive key to encrypt with: \n")
+
+    key = Fernet.generate_key()
+    cipher_suite = Fernet(key)
+    cipher_text = cipher_suite.encrypt(bytes(word, encoding='utf-8'))
+
+    print("Key: " + str(key) + "\n")
+    print(cipher_text)
+
+
 def decryption():
-    word = input("Give message to encrypt: \n")
-    key = input("\nGive key to encrypt with: \n")
+    word = input("Give message to decrypt: \n")
+    key = input("\nGive key to decrypt with: \n")
 
     cipher_suite = Fernet(key)
     plain_text = cipher_suite.decrypt(bytes(word, encoding='utf-8'))
@@ -72,7 +85,7 @@ def extract():
             for y in range(img.size[1]):
                 r, g, b = pix[x, y]
 
-                # Convert rgb to binary and print it
+                # Convert rgb's LSB to binary and print it
                 if r % 2 == 1:
                     r = 1
                 else:
@@ -213,8 +226,8 @@ def analyze():
             message += str(r) + str(g) + str(b)
 
     # Write the binary into a file
-    #with open("results.txt", 'w') as fp:
-        #fp.write(message + '\n')
+    with open("results.txt", 'w') as fp:
+        fp.write(message + '\n')
 
 
 def main():
