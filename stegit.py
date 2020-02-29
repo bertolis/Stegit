@@ -113,6 +113,7 @@ def extract():
             messages.append(m)
             print(m)
 
+"""
     print("\nSelect method: ")
     while True:
         print("1. Base64")
@@ -131,6 +132,7 @@ def extract():
             print("Please make a choice: ")
 
     brute_force(messages, method)
+"""
 
 
 def hide():
