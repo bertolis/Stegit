@@ -77,7 +77,7 @@ def extract():
         pix = img.load()
 
         # Pattern to search
-        pattern = re.compile("[-A-Za-z0-9+=_]{14,}")
+        pattern = re.compile("[-A-Za-z0-9{}+=_]{14,}")
         message = ""
 
         # Iterate through all the pixels of the image
