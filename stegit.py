@@ -153,7 +153,7 @@ def hide():
     bit3 = 2
 
     # Iterate through the pixels
-    for x in range(400, 401):
+    for x in range(105, 106):
         for y in range(math.ceil(len(bin_word) / 3)):
             try:
                 r, g, b = pix[x, y]
